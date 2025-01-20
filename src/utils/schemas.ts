@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { hashPassword } from './';
-import { USER_ROLE } from './enums';
+import { USER_ROLE, EXERCISE_DIFFICULTY } from './enums';
+
+export const tokenSchema = z.object({
+  id: z.string().min(1),
+  role: z.nativeEnum(USER_ROLE),
+});
 
 export const signInSchema = z.object({
   email: z.string().email(),

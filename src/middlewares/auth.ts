@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { verifyToken } from '../utils';
 import { USER_ROLE } from '../utils/enums';
+import { tokenSchema } from '../utils/schemas';
 
 export const authHandler = async (
   req: Request,
@@ -11,7 +12,7 @@ export const authHandler = async (
   res.locals.user = null;
 
   const token = req.headers.authorization?.split(' ')[1];
-  if (token) res.locals.user = verifyToken(token);
+  if (token) res.locals.user = verifyToken(token, tokenSchema);
 
   next();
 };
