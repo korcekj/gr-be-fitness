@@ -3,7 +3,8 @@ import { processRequest } from 'zod-express-middleware';
 import { Router, Request, Response, NextFunction } from 'express';
 
 import { models } from '../db';
-import { signUpSchema } from '../utils/schemas';
+import { createToken, verifyPassword } from '../utils';
+import { signUpSchema, signInSchema } from '../utils/schemas';
 
 const router: Router = Router();
 
@@ -16,13 +17,15 @@ export default () => {
       body: signUpSchema,
     }),
     async (req: Request, res: Response, _next: NextFunction) => {
-      const user = req.body;
+      const body = req.body;
 
       try {
-        await User.create(user);
+        const { id, role } = await User.create(body);
+        const token = createToken({ id, role });
 
         return res.json({
-          message: 'User created successfully',
+          data: { token },
+          message: 'Signed up successfully',
         });
       } catch (e) {
         if (e instanceof UniqueConstraintError) {
@@ -34,6 +37,36 @@ export default () => {
 
         throw e;
       }
+    }
+  );
+
+  router.post(
+    '/sign-in',
+    processRequest({
+      body: signInSchema,
+    }),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const { email, password } = req.body;
+
+      const user = await User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!user || !verifyPassword(password, user.password)) {
+        return res.status(400).json({
+          data: {},
+          message: 'Invalid email or password',
+        });
+      }
+
+      const token = createToken({ id: user.id, role: user.role });
+
+      return res.json({
+        data: { token },
+        message: 'Signed in successfully',
+      });
     }
   );
 
