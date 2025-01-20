@@ -48,3 +48,7 @@ Thumbs.db
 *.mov
 *.wmv
 
+# User custom files
+.bruno
+
+
