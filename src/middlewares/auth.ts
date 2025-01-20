@@ -17,7 +17,7 @@ export const authHandler = async (
 };
 
 export const verifyAuth = (roles?: (keyof typeof USER_ROLE)[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (_req: Request, res: Response, next: NextFunction) => {
     if (!res.locals.user) {
       return res.status(401).json({ data: {}, message: 'Unauthorized' });
     }
