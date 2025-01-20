@@ -1,21 +1,15 @@
 {
-    "compilerOptions": {
-		"esModuleInterop": true,
-        "target": "es6",
-        "module": "commonjs",
-    	"outDir": "./dist",
-		"sourceMap": true,
-        "noImplicitAny": true,
-		"typeRoots" : [
-            "node_modules/@types",
-			"./src/types"
-		],
-		"resolveJsonModule": true
-    },
-    "include": [
-		"./src/**/*"
-	],
-	"exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "typeRoots": ["node_modules/@types", "./src/types"],
+    "resolveJsonModule": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
 }
