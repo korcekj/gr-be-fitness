@@ -4,6 +4,7 @@ import 'express-async-errors';
 import * as bodyParser from 'body-parser';
 
 import { sequelize } from './db';
+import { authHandler } from './middlewares/auth';
 import { errorHandler } from './middlewares/error';
 
 import AuthRouter from './routes/auth';
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(authHandler);
 
 app.use('/auth', AuthRouter());
 app.use('/programs', ProgramRouter());
