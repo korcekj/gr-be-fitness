@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import { sequelize } from './db';
 import { errorHandler } from './middlewares/error';
 
+import AuthRouter from './routes/auth';
 import ProgramRouter from './routes/programs';
 import ExerciseRouter from './routes/exercises';
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/auth', AuthRouter());
 app.use('/programs', ProgramRouter());
 app.use('/exercises', ExerciseRouter());
 
