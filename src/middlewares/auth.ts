@@ -27,12 +27,12 @@ export const authHandler = async (
 export const verifyAuth = (...roles: USER_ROLE[]) => {
   return (_req: Request, res: Response, next: NextFunction) => {
     if (!res.locals.user) {
-      throw new HTTPError(401, 'Unauthorized');
+      throw new HTTPError(401, res.__('errors.user.unauthorized'));
     }
 
     const role = res.locals.user.role;
     if (roles.length && !Object.values(roles).includes(role)) {
-      throw new HTTPError(403, 'Forbidden');
+      throw new HTTPError(403, res.__('errors.user.forbidden'));
     }
 
     return next();

@@ -24,11 +24,11 @@ export default () => {
 
         return res.json({
           data: { token },
-          message: 'Signed up successfully',
+          message: res.__('messages.user.signedUp'),
         });
       } catch (e) {
         if (e instanceof UniqueConstraintError) {
-          throw new HTTPError(400, 'User already exists');
+          throw new HTTPError(400, res.__('errors.user.exists'));
         }
 
         throw e;
@@ -49,14 +49,14 @@ export default () => {
       });
 
       if (!user || !verifyPassword(password, user.password)) {
-        throw new HTTPError(400, 'Invalid email or password');
+        throw new HTTPError(400, res.__('errors.user.invalid'));
       }
 
       const token = createToken({ id: user.id });
 
       return res.json({
         data: { token },
-        message: 'Signed in successfully',
+        message: res.__('messages.user.signedIn'),
       });
     }
   );

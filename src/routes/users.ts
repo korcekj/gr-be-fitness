@@ -30,7 +30,7 @@ export default () => {
 
       return res.json({
         data: users,
-        message: 'List of users',
+        message: res.__('messages.user.list'),
       });
     }
   );
@@ -43,7 +43,7 @@ export default () => {
 
       return res.json({
         data: { name, surname, age, nickName },
-        message: 'User details',
+        message: res.__('messages.user.details'),
       });
     }
   );
@@ -59,11 +59,11 @@ export default () => {
         attributes: { exclude: ['password'] },
       });
 
-      if (!user) throw new HTTPError(404, 'User not found');
+      if (!user) throw new HTTPError(404, res.__('errors.user.notFound'));
 
       return res.json({
         data: user,
-        message: 'User details',
+        message: res.__('messages.user.details'),
       });
     }
   );
@@ -81,13 +81,13 @@ export default () => {
         attributes: { exclude: ['password'] },
       });
 
-      if (!user) throw new HTTPError(404, 'User not found');
+      if (!user) throw new HTTPError(404, res.__('errors.user.notFound'));
 
       await user.update(body);
 
       return res.json({
         data: user,
-        message: 'User successfully updated',
+        message: res.__('messages.user.updated'),
       });
     }
   );

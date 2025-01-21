@@ -1,28 +1,27 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Router, Request, Response, NextFunction } from 'express';
 
-import { models } from '../db'
+import { models } from '../db';
 
-const router: Router = Router()
+const router: Router = Router();
 
-const {
-	Exercise,
-	Program
-} = models
+const { Exercise, Program } = models;
 
 export default () => {
-	router.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
-		const exercises = await Exercise.findAll({
-			include: [{
-				model: Program,
-				as: 'program'
-			}]
-		})
+  router.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
+    const exercises = await Exercise.findAll({
+      include: [
+        {
+          model: Program,
+          as: 'program',
+        },
+      ],
+    });
 
-		return res.json({
-			data: exercises,
-			message: 'List of exercises'
-		})
-	})
+    return res.json({
+      data: exercises,
+      message: res.__('messages.exercise.list'),
+    });
+  });
 
-	return router
-}
+  return router;
+};

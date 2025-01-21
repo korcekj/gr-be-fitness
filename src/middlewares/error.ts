@@ -4,10 +4,10 @@ import { HTTPError } from '../utils/errors';
 
 export const notFoundHandler = (
   _req: Request,
-  _res: Response,
+  res: Response,
   _next: NextFunction
 ) => {
-  throw new HTTPError(404, 'Resource not found');
+  throw new HTTPError(404, res.__('errors.server.notFound'));
 };
 
 export const errorHandler = (
@@ -21,5 +21,5 @@ export const errorHandler = (
   }
 
   console.error(err);
-  res.status(500).send({ data: {}, message: 'Something went wrong' });
+  res.status(500).send({ data: {}, message: res.__('errors.server.internal') });
 };
