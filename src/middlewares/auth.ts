@@ -18,13 +18,13 @@ export const authHandler = async (
   next();
 };
 
-export const verifyAuth = (roles?: (keyof typeof USER_ROLE)[]) => {
+export const verifyAuth = (...roles: USER_ROLE[]) => {
   return (_req: Request, res: Response, next: NextFunction) => {
     if (!res.locals.user) {
       throw new HTTPError(401, 'Unauthorized');
     }
 
-    if (roles && !roles.includes(res.locals.user.role)) {
+    if (roles.length && !roles.includes(res.locals.user.role)) {
       throw new HTTPError(403, 'Forbidden');
     }
 
