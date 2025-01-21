@@ -19,8 +19,8 @@ export default () => {
       const body = req.body;
 
       try {
-        const { id, role } = await User.create(body);
-        const token = createToken({ id, role });
+        const { id } = await User.create(body);
+        const token = createToken({ id });
 
         return res.json({
           data: { token },
@@ -52,7 +52,7 @@ export default () => {
         throw new HTTPError(400, 'Invalid email or password');
       }
 
-      const token = createToken({ id: user.id, role: user.role });
+      const token = createToken({ id: user.id });
 
       return res.json({
         data: { token },
