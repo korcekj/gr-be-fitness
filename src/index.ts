@@ -8,6 +8,7 @@ import { authHandler } from './middlewares/auth';
 import { errorHandler } from './middlewares/error';
 
 import AuthRouter from './routes/auth';
+import UsersRouter from './routes/users';
 import ProgramRouter from './routes/programs';
 import ExerciseRouter from './routes/exercises';
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use(authHandler);
 
 app.use('/auth', AuthRouter());
+app.use('/users', UsersRouter());
 app.use('/programs', ProgramRouter());
 app.use('/exercises', ExerciseRouter());
 
