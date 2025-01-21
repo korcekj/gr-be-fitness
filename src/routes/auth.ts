@@ -3,6 +3,7 @@ import { processRequest } from 'zod-express-middleware';
 import { Router, Request, Response, NextFunction } from 'express';
 
 import { models } from '../db';
+import { HTTPError } from '../utils/errors';
 import { createToken, verifyPassword } from '../utils';
 import { signUpSchema, signInSchema } from '../utils/schemas';
 
@@ -29,10 +30,7 @@ export default () => {
         });
       } catch (e) {
         if (e instanceof UniqueConstraintError) {
-          return res.status(400).json({
-            data: {},
-            message: 'User already exists',
-          });
+          throw new HTTPError(400, 'User already exists');
         }
 
         throw e;
@@ -55,10 +53,7 @@ export default () => {
       });
 
       if (!user || !verifyPassword(password, user.password)) {
-        return res.status(400).json({
-          data: {},
-          message: 'Invalid email or password',
-        });
+        throw new HTTPError(400, 'Invalid email or password');
       }
 
       const token = createToken({ id: user.id, role: user.role });
