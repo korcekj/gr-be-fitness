@@ -1,0 +1,30 @@
+{
+  "errors": {
+    "server": {
+      "internal": "Nastala chyba",
+      "notFound": "Zdroj neexistuje"
+    },
+    "user": {
+      "unauthorized": "Neoprávený",
+      "forbidden": "Zakázaný",
+      "notFound": "Používateľ neexistuje",
+      "exists": "Používateľ už existuje",
+      "invalid": "Neplatné používatelské meno alebo heslo"
+    }
+  },
+  "messages": {
+    "user": {
+      "signedUp": "Registrácia bola uspešná",
+      "signedIn": "Prihlásenie bola uspešné",
+      "updated": "Použivateľ bol aktualizovaný",
+      "details": "Detaily používateľa",
+      "list": "Zoznam používatelov"
+    },
+    "exercise": {
+      "list": "Zoznam cvičení"
+    },
+    "program": {
+      "list": "Zoznam programov"
+    }
+  }
+}

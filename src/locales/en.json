@@ -1,0 +1,30 @@
+{
+  "errors": {
+    "server": {
+      "internal": "Something went wrong",
+      "notFound": "Resource not found"
+    },
+    "user": {
+      "unauthorized": "Unauthorized",
+      "forbidden": "Forbidden",
+      "notFound": "User not found",
+      "exists": "User already exists",
+      "invalid": "Invalid user or password"
+    }
+  },
+  "messages": {
+    "user": {
+      "signedUp": "Signed up successfully",
+      "signedIn": "Signed in successfully",
+      "updated": "User updated successfully",
+      "details": "User details",
+      "list": "List of users"
+    },
+    "exercise": {
+      "list": "List of exercises"
+    },
+    "program": {
+      "list": "List of programs"
+    }
+  }
+}
