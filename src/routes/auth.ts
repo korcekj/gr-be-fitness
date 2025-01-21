@@ -1,5 +1,5 @@
 import { UniqueConstraintError } from 'sequelize';
-import { processRequest } from 'zod-express-middleware';
+import { processRequestBody } from 'zod-express-middleware';
 import { Router, Request, Response, NextFunction } from 'express';
 
 import { models } from '../db';
@@ -14,9 +14,7 @@ const { User } = models;
 export default () => {
   router.post(
     '/sign-up',
-    processRequest({
-      body: signUpSchema,
-    }),
+    processRequestBody(signUpSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const body = req.body;
 
@@ -40,9 +38,7 @@ export default () => {
 
   router.post(
     '/sign-in',
-    processRequest({
-      body: signInSchema,
-    }),
+    processRequestBody(signInSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const { email, password } = req.body;
 
