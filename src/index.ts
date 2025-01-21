@@ -5,7 +5,7 @@ import * as bodyParser from 'body-parser';
 
 import { sequelize } from './db';
 import { authHandler } from './middlewares/auth';
-import { errorHandler } from './middlewares/error';
+import { errorHandler, notFoundHandler } from './middlewares/error';
 
 import AuthRouter from './routes/auth';
 import UsersRouter from './routes/users';
@@ -23,6 +23,7 @@ app.use('/users', UsersRouter());
 app.use('/programs', ProgramRouter());
 app.use('/exercises', ExerciseRouter());
 
+app.use(notFoundHandler);
 app.use(errorHandler);
 
 const httpServer = http.createServer(app);
