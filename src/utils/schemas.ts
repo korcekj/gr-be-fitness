@@ -2,6 +2,15 @@ import { z } from 'zod';
 import { hashPassword } from './';
 import { USER_ROLE, EXERCISE_DIFFICULTY } from './enums';
 
+export const getModelSchema = z
+  .object({
+    id: z.string().min(1),
+  })
+  .refine(({ id }) => !isNaN(Number(id)), {
+    message: 'ID must be a number',
+    path: ['id'],
+  });
+
 export const tokenSchema = z.object({
   id: z.string().min(1),
 });
@@ -24,15 +33,6 @@ export const signUpSchema = z
     };
   });
 
-export const getUserSchema = z
-  .object({
-    id: z.string().min(1),
-  })
-  .refine(({ id }) => !isNaN(Number(id)), {
-    message: 'ID must be a number',
-    path: ['id'],
-  });
-
 export const updateUserSchema = z
   .object({
     name: z.string().min(1),
@@ -42,15 +42,6 @@ export const updateUserSchema = z
     role: z.nativeEnum(USER_ROLE),
   })
   .partial();
-
-export const getExerciseSchema = z
-  .object({
-    id: z.string().min(1),
-  })
-  .refine(({ id }) => !isNaN(Number(id)), {
-    message: 'ID must be a number',
-    path: ['id'],
-  });
 
 export const getExercisesSchema = z
   .object({
@@ -72,15 +63,6 @@ export const createExerciseSchema = z.object({
 });
 
 export const updateExerciseSchema = createExerciseSchema.partial();
-
-export const getProgramSchema = z
-  .object({
-    id: z.string().min(1),
-  })
-  .refine(({ id }) => !isNaN(Number(id)), {
-    message: 'ID must be a number',
-    path: ['id'],
-  });
 
 export const updateProgramExerciseSchema = z
   .object({
