@@ -1,9 +1,22 @@
-import { Op } from 'sequelize';
+import {
+  TypedRequestQuery,
+  processRequestBody,
+  processRequestQuery,
+  processRequestParams,
+} from 'zod-express-middleware';
+import { ForeignKeyConstraintError, Op } from 'sequelize';
 import { Router, Request, Response, NextFunction } from 'express';
-import { processRequestQuery, TypedRequestQuery } from 'zod-express-middleware';
 
+import {
+  getExerciseSchema,
+  getExercisesSchema,
+  createExerciseSchema,
+  updateExerciseSchema,
+} from '../utils/schemas';
 import { models } from '../db';
-import { getExercisesSchema } from '../utils/schemas';
+import { USER_ROLE } from '../utils/enums';
+import { HTTPError } from '../utils/errors';
+import { verifyAuth } from '../middlewares/auth';
 
 const router: Router = Router();
 
@@ -40,6 +53,81 @@ export default () => {
       return res.json({
         data: exercises,
         message: res.__('messages.exercise.list'),
+      });
+    }
+  );
+
+  router.post(
+    '/',
+    verifyAuth(USER_ROLE.ADMIN),
+    processRequestBody(createExerciseSchema),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const body = req.body;
+
+      try {
+        const exercise = await Exercise.create(body);
+
+        return res.json({
+          data: exercise,
+          message: res.__('messages.exercise.created'),
+        });
+      } catch (e) {
+        if (e instanceof ForeignKeyConstraintError) {
+          throw new HTTPError(404, res.__('errors.program.notFound'));
+        }
+
+        throw e;
+      }
+    }
+  );
+
+  router.patch(
+    '/:id',
+    verifyAuth(USER_ROLE.ADMIN),
+    processRequestParams(getExerciseSchema),
+    processRequestBody(updateExerciseSchema),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const body = req.body;
+      const { id } = req.params;
+
+      const exercise = await Exercise.findByPk(id);
+      if (!exercise) {
+        throw new HTTPError(404, res.__('errors.exercise.notFound'));
+      }
+
+      try {
+        await exercise.update(body);
+      } catch (e) {
+        if (e instanceof ForeignKeyConstraintError) {
+          throw new HTTPError(404, res.__('errors.program.notFound'));
+        }
+
+        throw e;
+      }
+
+      return res.json({
+        data: exercise,
+        message: res.__('messages.exercise.updated'),
+      });
+    }
+  );
+
+  router.delete(
+    '/:id',
+    verifyAuth(USER_ROLE.ADMIN),
+    processRequestParams(getExerciseSchema),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const { id } = req.params;
+
+      const exercise = await Exercise.findByPk(id);
+      if (!exercise) {
+        throw new HTTPError(404, res.__('errors.exercise.notFound'));
+      }
+
+      await exercise.destroy();
+
+      return res.json({
+        message: res.__('messages.exercise.deleted'),
       });
     }
   );
