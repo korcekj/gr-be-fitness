@@ -55,7 +55,7 @@ export default () => {
     }
   );
 
-  router.patch(
+  router.post(
     '/:programID/exercises/:exerciseID',
     verifyAuth(USER_ROLE.ADMIN),
     processRequestParams(updateProgramExerciseSchema),
