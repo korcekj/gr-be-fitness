@@ -72,3 +72,17 @@ export const createExerciseSchema = z.object({
 });
 
 export const updateExerciseSchema = createExerciseSchema.partial();
+
+export const updateProgramExerciseSchema = z
+  .object({
+    programID: z.string().min(1),
+    exerciseID: z.string().min(1),
+  })
+  .refine(
+    ({ programID, exerciseID }) =>
+      !isNaN(Number(programID)) && !isNaN(Number(exerciseID)),
+    {
+      message: 'Program ID and exercise ID must be numbers',
+      path: ['programID', 'exerciseID'],
+    }
+  );
