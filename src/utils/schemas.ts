@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { hashPassword } from './';
-import { USER_ROLE } from './enums';
+import { USER_ROLE, EXERCISE_DIFFICULTY } from './enums';
 
 export const tokenSchema = z.object({
   id: z.string().min(1),
@@ -38,6 +38,15 @@ export const updateUserSchema = z
   })
   .partial();
 
+export const getExerciseSchema = z
+  .object({
+    id: z.string().min(1),
+  })
+  .refine(({ id }) => !isNaN(Number(id)), {
+    message: 'ID must be a number',
+    path: ['id'],
+  });
+
 export const getExercisesSchema = z
   .object({
     search: z.string().min(1),
@@ -50,3 +59,11 @@ export const getExercisesSchema = z
     message: 'Both page and limit must be positive',
     path: ['page', 'limit'],
   });
+
+export const createExerciseSchema = z.object({
+  name: z.string().min(1),
+  difficulty: z.nativeEnum(EXERCISE_DIFFICULTY),
+  programID: z.number().positive(),
+});
+
+export const updateExerciseSchema = createExerciseSchema.partial();
