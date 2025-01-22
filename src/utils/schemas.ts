@@ -24,9 +24,14 @@ export const signUpSchema = z
     };
   });
 
-export const getUserSchema = z.object({
-  id: z.string().min(1),
-});
+export const getUserSchema = z
+  .object({
+    id: z.string().min(1),
+  })
+  .refine(({ id }) => !isNaN(Number(id)), {
+    message: 'ID must be a number',
+    path: ['id'],
+  });
 
 export const updateUserSchema = z
   .object({
