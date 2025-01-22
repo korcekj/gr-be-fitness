@@ -37,3 +37,16 @@ export const updateUserSchema = z
     role: z.nativeEnum(USER_ROLE),
   })
   .partial();
+
+export const getExercisesSchema = z
+  .object({
+    search: z.string().min(1),
+    page: z.coerce.number().positive(),
+    limit: z.coerce.number().positive(),
+    programID: z.coerce.number().positive(),
+  })
+  .partial()
+  .refine(({ page, limit }) => (page !== undefined) === (limit !== undefined), {
+    message: 'Both page and limit must be positive',
+    path: ['page', 'limit'],
+  });
