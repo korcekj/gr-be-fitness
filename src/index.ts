@@ -15,9 +15,9 @@ import ExerciseRouter from './routes/exercises';
 
 const app = express();
 
+app.use(i18nHandler);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(i18nHandler);
 app.use(authHandler);
 
 app.use('/auth', AuthRouter());
