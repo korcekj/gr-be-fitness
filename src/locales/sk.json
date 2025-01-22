@@ -10,6 +10,12 @@
       "notFound": "Používateľ neexistuje",
       "exists": "Používateľ už existuje",
       "invalid": "Neplatné používatelské meno alebo heslo"
+    },
+    "exercise": {
+      "notFound": "Cvičenie neexistuje"
+    },
+    "program": {
+      "notFound": "Program neexistuje"
     }
   },
   "messages": {
@@ -21,7 +27,10 @@
       "list": "Zoznam používatelov"
     },
     "exercise": {
-      "list": "Zoznam cvičení"
+      "list": "Zoznam cvičení",
+      "created": "Cvičenie bolo úspešne vytvorené",
+      "updated": "Cvičenie bolo úspešne aktualizované",
+      "deleted": "Cvičenie bolo úspešne odstránené"
     },
     "program": {
       "list": "Zoznam programov"

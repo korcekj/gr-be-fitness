@@ -10,6 +10,12 @@
       "notFound": "User not found",
       "exists": "User already exists",
       "invalid": "Invalid user or password"
+    },
+    "exercise": {
+      "notFound": "Exercise not found"
+    },
+    "program": {
+      "notFound": "Program not found"
     }
   },
   "messages": {
@@ -21,7 +27,10 @@
       "list": "List of users"
     },
     "exercise": {
-      "list": "List of exercises"
+      "list": "List of exercises",
+      "created": "Exercise created successfully",
+      "updated": "Exercise updated successfully",
+      "deleted": "Exercise deleted successfully"
     },
     "program": {
       "list": "List of programs"
