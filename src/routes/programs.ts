@@ -1,12 +1,19 @@
 import { Op } from 'sequelize';
-import { processRequestParams } from 'zod-express-middleware';
+import {
+  processRequestBody,
+  processRequestParams,
+} from 'zod-express-middleware';
 import { Router, Request, Response, NextFunction } from 'express';
 
+import {
+  getProgramSchema,
+  createExerciseSchema,
+  updateProgramExerciseSchema,
+} from '../utils/schemas';
 import { models } from '../db';
 import { USER_ROLE } from '../utils/enums';
 import { HTTPError } from '../utils/errors';
 import { verifyAuth } from '../middlewares/auth';
-import { updateProgramExerciseSchema } from '../utils/schemas';
 
 const router: Router = Router();
 
@@ -21,6 +28,32 @@ export default () => {
       message: res.__('messages.program.list'),
     });
   });
+
+  router.post(
+    '/:id/exercises',
+    verifyAuth(USER_ROLE.ADMIN),
+    processRequestParams(getProgramSchema),
+    processRequestBody(createExerciseSchema.omit({ programID: true })),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const body = req.body;
+      const { id } = req.params;
+
+      const program = await Program.findByPk(id, {
+        include: [{ model: Exercise, as: 'translations' }],
+      });
+      if (!program) {
+        throw new HTTPError(404, res.__('errors.program.notFound'));
+      }
+
+      await Exercise.create({ ...body, programID: id });
+      await program.reload();
+
+      return res.json({
+        data: program,
+        message: res.__('messages.program.updated'),
+      });
+    }
+  );
 
   router.patch(
     '/:programID/exercises/:exerciseID',
