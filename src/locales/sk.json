@@ -15,7 +15,8 @@
       "notFound": "Cvičenie neexistuje"
     },
     "program": {
-      "notFound": "Program neexistuje"
+      "notFound": "Program neexistuje",
+      "single": "Žiadne ďalšie programy neexistujú"
     }
   },
   "messages": {
@@ -33,7 +34,9 @@
       "deleted": "Cvičenie bolo úspešne odstránené"
     },
     "program": {
-      "list": "Zoznam programov"
+      "list": "Zoznam programov",
+      "notFound": "Program neexistuje",
+      "updated": "Program bol úspešne aktualizovaný"
     }
   }
 }

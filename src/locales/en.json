@@ -15,7 +15,8 @@
       "notFound": "Exercise not found"
     },
     "program": {
-      "notFound": "Program not found"
+      "notFound": "Program not found",
+      "single": "No other programs left"
     }
   },
   "messages": {
@@ -33,7 +34,9 @@
       "deleted": "Exercise deleted successfully"
     },
     "program": {
-      "list": "List of programs"
+      "list": "List of programs",
+      "notFound": "Program not found",
+      "updated": "Program updated successfully"
     }
   }
 }
