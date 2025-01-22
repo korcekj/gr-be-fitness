@@ -6,7 +6,7 @@ import {
 import { Router, Request, Response, NextFunction } from 'express';
 
 import {
-  getProgramSchema,
+  getModelSchema,
   createExerciseSchema,
   updateProgramExerciseSchema,
 } from '../utils/schemas';
@@ -32,7 +32,7 @@ export default () => {
   router.post(
     '/:id/exercises',
     verifyAuth(USER_ROLE.ADMIN),
-    processRequestParams(getProgramSchema),
+    processRequestParams(getModelSchema),
     processRequestBody(createExerciseSchema.omit({ programID: true })),
     async (req: Request, res: Response, _next: NextFunction) => {
       const body = req.body;

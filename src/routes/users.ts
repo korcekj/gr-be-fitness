@@ -8,7 +8,7 @@ import { models } from '../db';
 import { USER_ROLE } from '../utils/enums';
 import { HTTPError } from '../utils/errors';
 import { verifyAuth } from '../middlewares/auth';
-import { getUserSchema, updateUserSchema } from '../utils/schemas';
+import { getModelSchema, updateUserSchema } from '../utils/schemas';
 
 const { User } = models;
 
@@ -51,7 +51,7 @@ export default () => {
   router.get(
     '/:id',
     verifyAuth(USER_ROLE.ADMIN),
-    processRequestParams(getUserSchema),
+    processRequestParams(getModelSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const { id } = req.params;
 
@@ -71,7 +71,7 @@ export default () => {
   router.patch(
     '/:id',
     verifyAuth(USER_ROLE.ADMIN),
-    processRequestParams(getUserSchema),
+    processRequestParams(getModelSchema),
     processRequestBody(updateUserSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const { id } = req.params;

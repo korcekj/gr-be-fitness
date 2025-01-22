@@ -8,7 +8,7 @@ import { ForeignKeyConstraintError, Op } from 'sequelize';
 import { Router, Request, Response, NextFunction } from 'express';
 
 import {
-  getExerciseSchema,
+  getModelSchema,
   getExercisesSchema,
   createExerciseSchema,
   updateExerciseSchema,
@@ -84,7 +84,7 @@ export default () => {
   router.patch(
     '/:id',
     verifyAuth(USER_ROLE.ADMIN),
-    processRequestParams(getExerciseSchema),
+    processRequestParams(getModelSchema),
     processRequestBody(updateExerciseSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const body = req.body;
@@ -115,7 +115,7 @@ export default () => {
   router.delete(
     '/:id',
     verifyAuth(USER_ROLE.ADMIN),
-    processRequestParams(getExerciseSchema),
+    processRequestParams(getModelSchema),
     async (req: Request, res: Response, _next: NextFunction) => {
       const { id } = req.params;
 
