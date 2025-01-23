@@ -77,3 +77,8 @@ export const updateProgramExerciseSchema = z
       path: ['programID', 'exerciseID'],
     }
   );
+
+export const createCompletionSchema = z.object({
+  exerciseID: z.number().positive(),
+  duration: z.number().positive(),
+});
