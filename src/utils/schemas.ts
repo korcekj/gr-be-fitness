@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { hashPassword } from './';
+import { hashPassword } from './crypto';
 import { USER_ROLE, EXERCISE_DIFFICULTY } from './enums';
 
 export const getModelSchema = z

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { models } from '../db';
-import { verifyToken } from '../utils';
 import { USER_ROLE } from '../utils/enums';
 import { HTTPError } from '../utils/errors';
+import { verifyToken } from '../utils/crypto';
 import { tokenSchema } from '../utils/schemas';
 
 const { User } = models;

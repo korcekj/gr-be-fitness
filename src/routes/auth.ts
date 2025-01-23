@@ -4,7 +4,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 import { models } from '../db';
 import { HTTPError } from '../utils/errors';
-import { createToken, verifyPassword } from '../utils';
+import { createToken, verifyPassword } from '../utils/crypto';
 import { signUpSchema, signInSchema } from '../utils/schemas';
 
 const router: Router = Router();
