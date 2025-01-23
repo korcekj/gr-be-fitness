@@ -1,42 +1,50 @@
 {
-  "errors": {
-    "server": {
-      "internal": "Something went wrong",
-      "notFound": "Resource not found"
-    },
-    "user": {
-      "unauthorized": "Unauthorized",
-      "forbidden": "Forbidden",
-      "notFound": "User not found",
-      "exists": "User already exists",
-      "invalid": "Invalid user or password"
-    },
-    "exercise": {
-      "notFound": "Exercise not found"
-    },
-    "program": {
-      "notFound": "Program not found",
-      "single": "No other programs left"
-    }
-  },
-  "messages": {
-    "user": {
-      "signedUp": "Signed up successfully",
-      "signedIn": "Signed in successfully",
-      "updated": "User updated successfully",
-      "details": "User details",
-      "list": "List of users"
-    },
-    "exercise": {
-      "list": "List of exercises",
-      "created": "Exercise created successfully",
-      "updated": "Exercise updated successfully",
-      "deleted": "Exercise deleted successfully"
-    },
-    "program": {
-      "list": "List of programs",
-      "notFound": "Program not found",
-      "updated": "Program updated successfully"
-    }
-  }
+	"errors": {
+		"server": {
+			"internal": "Something went wrong",
+			"notFound": "Resource not found"
+		},
+		"user": {
+			"unauthorized": "Unauthorized",
+			"forbidden": "Forbidden",
+			"notFound": "User not found",
+			"exists": "User already exists",
+			"invalid": "Invalid user or password"
+		},
+		"exercise": {
+			"notFound": "Exercise not found"
+		},
+		"program": {
+			"notFound": "Program not found",
+			"single": "No other programs left"
+		},
+		"completion": {
+			"notFound": "Completion not found"
+		}
+	},
+	"messages": {
+		"user": {
+			"signedUp": "Signed up successfully",
+			"signedIn": "Signed in successfully",
+			"updated": "User updated successfully",
+			"details": "User details",
+			"list": "List of users"
+		},
+		"exercise": {
+			"list": "List of exercises",
+			"created": "Exercise created successfully",
+			"updated": "Exercise updated successfully",
+			"deleted": "Exercise deleted successfully",
+			"completed": "messages.exercise.completed"
+		},
+		"program": {
+			"list": "List of programs",
+			"notFound": "Program not found",
+			"updated": "Program updated successfully"
+		},
+		"completion": {
+			"created": "Completion created successfully",
+			"deleted": "Completion deleted successfully"
+		}
+	}
 }

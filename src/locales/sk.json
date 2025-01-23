@@ -17,6 +17,9 @@
     "program": {
       "notFound": "Program neexistuje",
       "single": "Žiadne ďalšie programy neexistujú"
+    },
+    "completion": {
+      "notFound": "Dokončenie neexistuje"
     }
   },
   "messages": {
@@ -37,6 +40,10 @@
       "list": "Zoznam programov",
       "notFound": "Program neexistuje",
       "updated": "Program bol úspešne aktualizovaný"
+    },
+    "completion": {
+      "created": "Dokončenie bolo úspešne vytvorené",
+      "deleted": "Dokončenie bolo úspešne odstránené"
     }
   }
 }
