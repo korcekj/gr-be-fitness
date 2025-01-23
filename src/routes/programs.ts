@@ -10,7 +10,7 @@ import {
   createExerciseSchema,
   updateProgramExerciseSchema,
 } from '../utils/schemas';
-import { models } from '../db';
+import { models, sequelize } from '../db';
 import { USER_ROLE } from '../utils/enums';
 import { HTTPError } from '../utils/errors';
 import { verifyAuth } from '../middlewares/auth';
@@ -38,15 +38,20 @@ export default () => {
       const body = req.body;
       const { id } = req.params;
 
-      const program = await Program.findByPk(id, {
-        include: [{ model: Exercise, as: 'translations' }],
-      });
-      if (!program) {
-        throw new HTTPError(404, res.__('errors.program.notFound'));
-      }
+      const program = await sequelize.transaction(async (t) => {
+        const program = await Program.findByPk(id, {
+          include: [{ model: Exercise, as: 'translations' }],
+          transaction: t,
+        });
+        if (!program) {
+          throw new HTTPError(404, res.__('errors.program.notFound'));
+        }
 
-      await Exercise.create({ ...body, programID: id });
-      await program.reload();
+        await Exercise.create({ ...body, programID: id }, { transaction: t });
+        await program.reload({ transaction: t });
+
+        return program;
+      });
 
       return res.json({
         data: program,
@@ -62,20 +67,27 @@ export default () => {
     async (req: Request, res: Response, _next: NextFunction) => {
       const { programID, exerciseID } = req.params;
 
-      const program = await Program.findByPk(programID, {
-        include: [{ model: Exercise, as: 'translations' }],
+      const program = await sequelize.transaction(async (t) => {
+        const program = await Program.findByPk(programID, {
+          include: [{ model: Exercise, as: 'translations' }],
+          transaction: t,
+        });
+        if (!program) {
+          throw new HTTPError(404, res.__('errors.program.notFound'));
+        }
+
+        const exercise = await Exercise.findByPk(exerciseID, {
+          transaction: t,
+        });
+        if (!exercise) {
+          throw new HTTPError(404, res.__('errors.exercise.notFound'));
+        }
+
+        await exercise.update({ programID }, { transaction: t });
+        await program.reload({ transaction: t });
+
+        return program;
       });
-      if (!program) {
-        throw new HTTPError(404, res.__('errors.program.notFound'));
-      }
-
-      const exercise = await Exercise.findByPk(exerciseID);
-      if (!exercise) {
-        throw new HTTPError(404, res.__('errors.exercise.notFound'));
-      }
-
-      await exercise.update({ programID });
-      await program.reload();
 
       return res.json({
         data: program,
@@ -91,27 +103,38 @@ export default () => {
     async (req: Request, res: Response, _next: NextFunction) => {
       const { programID, exerciseID } = req.params;
 
-      const program = await Program.findByPk(programID, {
-        include: [{ model: Exercise, as: 'translations' }],
+      const program = await sequelize.transaction(async (t) => {
+        const program = await Program.findByPk(programID, {
+          include: [{ model: Exercise, as: 'translations' }],
+          transaction: t,
+        });
+        if (!program) {
+          throw new HTTPError(404, res.__('errors.program.notFound'));
+        }
+
+        const nextProgram = await Program.findOne({
+          where: { id: { [Op.not]: programID } },
+          transaction: t,
+        });
+        if (!nextProgram) {
+          throw new HTTPError(404, res.__('errors.program.single'));
+        }
+
+        const exercise = await Exercise.findByPk(exerciseID, {
+          transaction: t,
+        });
+        if (!exercise) {
+          throw new HTTPError(404, res.__('errors.exercise.notFound'));
+        }
+
+        await exercise.update(
+          { programID: nextProgram.id },
+          { transaction: t }
+        );
+        await program.reload({ transaction: t });
+
+        return program;
       });
-      if (!program) {
-        throw new HTTPError(404, res.__('errors.program.notFound'));
-      }
-
-      const nextProgram = await Program.findOne({
-        where: { id: { [Op.not]: programID } },
-      });
-      if (!nextProgram) {
-        throw new HTTPError(404, res.__('errors.program.single'));
-      }
-
-      const exercise = await Exercise.findByPk(exerciseID);
-      if (!exercise) {
-        throw new HTTPError(404, res.__('errors.exercise.notFound'));
-      }
-
-      await exercise.update({ programID: nextProgram.id });
-      await program.reload();
 
       return res.json({
         data: program,
