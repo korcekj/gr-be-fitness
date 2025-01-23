@@ -1,8 +1,10 @@
 /* eslint import/no-cycle: 0 */
 
 import { Sequelize, DataTypes } from 'sequelize';
-import { DatabaseModel } from '../types/db';
+
 import { USER_ROLE } from '../utils/enums';
+import { DatabaseModel } from '../types/db';
+import { CompletionModel } from './completion';
 
 export class UserModel extends DatabaseModel {
   id: number;
@@ -13,6 +15,8 @@ export class UserModel extends DatabaseModel {
   nickName: string;
   age: number;
   role: USER_ROLE;
+
+  completions: CompletionModel[];
 }
 
 export default (sequelize: Sequelize) => {
@@ -57,6 +61,16 @@ export default (sequelize: Sequelize) => {
       modelName: 'user',
     }
   );
+
+  UserModel.associate = (models) => {
+    (UserModel as any).hasMany(models.Completion, {
+      foreignKey: {
+        name: 'userID',
+        allowNull: false,
+      },
+      as: 'completions',
+    });
+  };
 
   return UserModel;
 };
