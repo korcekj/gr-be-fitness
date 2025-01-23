@@ -4,8 +4,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 import { models } from '../db';
 import { HTTPError } from '../utils/errors';
-import { createToken, verifyPassword } from '../utils/crypto';
 import { signUpSchema, signInSchema } from '../utils/schemas';
+import { createToken, verifyPassword, hashPassword } from '../utils/crypto';
 
 const router: Router = Router();
 
@@ -19,7 +19,10 @@ export default () => {
       const body = req.body;
 
       try {
-        const { id } = await User.create(body);
+        const { id } = await User.create({
+          ...body,
+          password: hashPassword(body.password),
+        });
         const token = createToken({ id });
 
         return res.json({
