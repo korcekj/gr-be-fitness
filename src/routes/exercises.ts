@@ -12,6 +12,7 @@ import {
   getExercisesSchema,
   createExerciseSchema,
   updateExerciseSchema,
+  createCompletionSchema,
 } from '../utils/schemas';
 import { models } from '../db';
 import { USER_ROLE } from '../utils/enums';
@@ -20,7 +21,7 @@ import { verifyAuth } from '../middlewares/auth';
 
 const router: Router = Router();
 
-const { Exercise, Program } = models;
+const { Exercise, Program, Completion } = models;
 
 export default () => {
   router.get(
@@ -129,6 +130,36 @@ export default () => {
       return res.json({
         message: res.__('messages.exercise.deleted'),
       });
+    }
+  );
+
+  router.post(
+    '/:id/completions',
+    verifyAuth(),
+    processRequestParams(getModelSchema),
+    processRequestBody(createCompletionSchema.omit({ exerciseID: true })),
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const { id } = req.params;
+      const { id: userID } = res.locals.user!;
+
+      try {
+        const completion = await Completion.create({
+          ...req.body,
+          userID,
+          exerciseID: id,
+        });
+
+        return res.json({
+          data: completion,
+          message: res.__('messages.completion.created'),
+        });
+      } catch (e) {
+        if (e instanceof ForeignKeyConstraintError) {
+          throw new HTTPError(400, res.__('errors.exercise.notFound'));
+        }
+
+        throw e;
+      }
     }
   );
 
