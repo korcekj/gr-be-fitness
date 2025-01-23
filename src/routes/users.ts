@@ -10,7 +10,7 @@ import { HTTPError } from '../utils/errors';
 import { verifyAuth } from '../middlewares/auth';
 import { getModelSchema, updateUserSchema } from '../utils/schemas';
 
-const { User } = models;
+const { User, Completion, Exercise } = models;
 
 const router: Router = Router();
 
@@ -39,10 +39,27 @@ export default () => {
     '/me',
     verifyAuth(),
     async (_req: Request, res: Response, _next: NextFunction) => {
-      const { name, surname, age, nickName } = res.locals.user!;
+      const { id } = res.locals.user!;
+
+      const user = await User.findByPk(id, {
+        attributes: ['name', 'surname', 'age', 'nickName'],
+        include: [
+          {
+            model: Completion,
+            as: 'completions',
+            include: [
+              {
+                model: Exercise,
+                attributes: ['id', 'name', 'difficulty'],
+              },
+            ],
+            attributes: ['id', 'duration', 'completedAt'],
+          },
+        ],
+      });
 
       return res.json({
-        data: { name, surname, age, nickName },
+        data: user,
         message: res.__('messages.user.details'),
       });
     }
