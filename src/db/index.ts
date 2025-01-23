@@ -1,12 +1,13 @@
 /* eslint import/no-cycle: 0 */
 
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { Sequelize } from 'sequelize';
 
 import defineUser from './user';
-import defineExercise from './exercise';
 import defineProgram from './program';
+import defineExercise from './exercise';
+import defineCompletion from './completion';
 
 const sequelize: Sequelize = new Sequelize(
   'postgresql://localhost:5432/fitness_app',
@@ -21,9 +22,13 @@ sequelize
 
 const modelsBuilder = (instance: Sequelize) => ({
   // Import models to sequelize
-  Exercise: instance.import(path.join(__dirname, 'exercise'), defineExercise),
-  Program: instance.import(path.join(__dirname, 'program'), defineProgram),
   User: instance.import(path.join(__dirname, 'user'), defineUser),
+  Program: instance.import(path.join(__dirname, 'program'), defineProgram),
+  Exercise: instance.import(path.join(__dirname, 'exercise'), defineExercise),
+  Completion: instance.import(
+    path.join(__dirname, 'completion'),
+    defineCompletion
+  ),
 });
 
 const models = modelsBuilder(sequelize);
