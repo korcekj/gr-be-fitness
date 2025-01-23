@@ -12,6 +12,7 @@ import AuthRouter from './routes/auth';
 import UsersRouter from './routes/users';
 import ProgramRouter from './routes/programs';
 import ExerciseRouter from './routes/exercises';
+import CompletionsRouter from './routes/completions';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/auth', AuthRouter());
 app.use('/users', UsersRouter());
 app.use('/programs', ProgramRouter());
 app.use('/exercises', ExerciseRouter());
+app.use('/completions', CompletionsRouter());
 
 app.use(notFoundHandler);
 app.use(errorHandler);
