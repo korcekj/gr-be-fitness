@@ -4,7 +4,7 @@ i18n.configure({
   header: 'language',
   defaultLocale: 'en',
   locales: ['en', 'sk'],
-  directory: __dirname + '/../locales',
+  directory: __dirname + '/../../locales',
   objectNotation: true,
 });
 
